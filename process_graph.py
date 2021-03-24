@@ -22,13 +22,13 @@ class Graph(object):
             q = self.bs_content.find('mxcell',
                                      attrs={'id':self.first_vertex_id})\
                                      .get('value')
-            print('First vertex with question:', )
+            print('First vertex with question:', q)
 
     def connect_graph(self):
-        vertices_to_process = [self.first_vertex_id]
+        vertices_to_process = [self.bs_content.find('mxcell',
+                                            attrs={'id':self.first_vertex_id})]
         while vertices_to_process:
-            vertex = self.bs_content.find('mxcell',
-                                          attrs={'id':vertices_to_process[0]})
+            vertex = vertices_to_process[0]
             vertex_edges = self.get_out_edges(vertex.get('id'))
             vertex_answers = [v[1] for v in vertex_edges]
             next_vertices = self.get_next_vertices(vertex_edges)
@@ -68,9 +68,19 @@ class Graph(object):
         return vertex_edges_wanswer
 
     def get_next_vertices(self, vertex_edges):
-        next_vertices = [edge[0].get('target')\
-                         for edge in vertex_edges\
-                         if edge[0].get('target')]
+        next_vertices = []
+        for edge, value in vertex_edges:
+            if edge.get('target'):
+                nv = self.bs_content.find('mxcell',
+                                          attrs= {'id':edge.get('target')})
+                nv['source_element_id'] = edge.get('source')
+                source_answer = self.bs_content.find('mxcell',
+                                             attrs={'vertex':'1',
+                                                    'parent':edge.get('id')})
+                if source_answer:
+                    nv['source_answer'] = source_answer.get('value')
+                next_vertices.append(nv)
+        
         return next_vertices
 
     def gen_survey_elements(self, vertex, vertex_edges):
@@ -78,6 +88,9 @@ class Graph(object):
                           'text': vertex.get('value'),
                           'answers':[v[1] for v in vertex_edges],
                           'targets':[v[0].get('target') for v in vertex_edges]}
+        for key in ['source_element_id', 'source_answer']:
+            survey_element[key] = vertex.get(key)
+
         return survey_element
 
 def main(filename):
