@@ -27,13 +27,14 @@ class Graph(object):
     def connect_graph(self):
         vertices_to_process = [self.bs_content.find('mxcell',
                                             attrs={'id':self.first_vertex_id})]
+        self.survey_elements = []
         while vertices_to_process:
             vertex = vertices_to_process[0]
             vertex_edges = self.get_out_edges(vertex.get('id'))
             vertex_answers = [v[1] for v in vertex_edges]
             next_vertices = self.get_next_vertices(vertex_edges)
             survey_element = self.gen_survey_elements(vertex, vertex_edges)
-            print(survey_element)
+            self.survey_elements.append(survey_element)
             if None in survey_element['targets']:
                 raise ValueError('%s has an edge without a target'%survey_element['text'])
             vertices_to_process.pop(0)
@@ -97,7 +98,8 @@ def main(filename):
     graph = Graph(filename)
     graph.get_first_vertex()
     graph.connect_graph()
-
+    for survey_element in graph.survey_elements:
+        print(survey_element)
 
 if __name__ == "__main__":
     filename = sys.argv[1] 
