@@ -81,8 +81,31 @@ class Graph(object):
                 source_answer = self.bs_content.find('mxcell',
                                              attrs={'vertex':'1',
                                                     'parent':edge.get('id')})
+                nv['source_answer'] = None
                 if source_answer:
                     nv['source_answer'] = source_answer.get('value')
+                else:
+                    print('***')
+                    # if there is no source answer it means the parent
+                    # is a service we need to go to the grandparent
+                    
+                    while nv['source_answer'] == None:
+                        parent = self.bs_content.find('mxcell',
+                                                attrs={'id': nv['source_element_id']})
+                        print(parent)
+                        # get connecting edge
+                        grandparent = self.bs_content.find('mxcell',
+                                        attrs={'edge':'1',
+                                               'target':parent.get('id')})
+                        print(grandparent)
+                        nv['source_element_id'] = grandparent.get('source')
+                        # get text box vertex of the edge
+                        text = self.bs_content.find('mxcell',
+                                            attrs={'vertex':'1',
+                                                   'parent':grandparent.get('id')})
+                        nv['source_answer'] = text.get('value')
+                    print(nv)
+                    # TODO cannot be two services back to back
                 next_vertices.append(nv)
         
         return next_vertices

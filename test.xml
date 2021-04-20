@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<mxfile host="Electron" modified="2021-03-24T17:09:08.726Z" agent="5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/14.1.8 Chrome/87.0.4280.88 Electron/11.1.1 Safari/537.36" etag="xyWxXBCVZiR7sEioixQP" version="14.1.8" type="device">
+<mxfile host="Electron" modified="2021-04-20T15:46:19.443Z" agent="5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/14.1.8 Chrome/87.0.4280.88 Electron/11.1.1 Safari/537.36" etag="s9hiGW77jrDVz_U_T6lx" version="14.1.8" type="device">
   <diagram id="2u0bAJ-lTqtkkMbWTdIP" name="Page-1">
-    <mxGraphModel dx="1422" dy="-1375" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="623" dy="-1641" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -41,7 +41,7 @@
         <mxCell id="uAPxqi84fl5xrFUujPtx-20" value="Potrteu un registre de les &#xa;vostres clientes/sòcies?" style="rounded=1;fillColor=#10739E;strokeColor=none;shadow=1;gradientColor=none;fontStyle=1;fontSize=14;fontColor=#FFFFFF;" parent="1" vertex="1">
           <mxGeometry x="846.86" y="2820" width="268.25" height="65" as="geometry" />
         </mxCell>
-        <mxCell id="uAPxqi84fl5xrFUujPtx-21" value="" style="edgeStyle=elbowEdgeStyle;elbow=vertical;strokeWidth=4;endArrow=block;endFill=1;fontStyle=1;strokeColor=#23445D;entryX=0.286;entryY=0.013;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="uAPxqi84fl5xrFUujPtx-20" edge="1" target="uAPxqi84fl5xrFUujPtx-25">
+        <mxCell id="uAPxqi84fl5xrFUujPtx-21" value="" style="edgeStyle=elbowEdgeStyle;elbow=vertical;strokeWidth=4;endArrow=block;endFill=1;fontStyle=1;strokeColor=#23445D;entryX=0.286;entryY=0.013;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="uAPxqi84fl5xrFUujPtx-20" target="uAPxqi84fl5xrFUujPtx-25" edge="1">
           <mxGeometry x="521.72" y="2774.4999999999995" width="100" height="100" as="geometry">
             <mxPoint x="978.8540000000003" y="2890" as="sourcePoint" />
             <mxPoint x="837" y="2950" as="targetPoint" />
@@ -154,14 +154,11 @@
             <mxPoint x="109" y="-2" as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="uAPxqi84fl5xrFUujPtx-78" value="" style="edgeStyle=elbowEdgeStyle;elbow=vertical;strokeWidth=4;endArrow=block;endFill=1;fontStyle=1;strokeColor=#23445D;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" parent="1" source="uAPxqi84fl5xrFUujPtx-26" target="uAPxqi84fl5xrFUujPtx-79" edge="1">
+        <mxCell id="uAPxqi84fl5xrFUujPtx-78" value="" style="edgeStyle=elbowEdgeStyle;elbow=vertical;strokeWidth=4;endArrow=block;endFill=1;fontStyle=1;strokeColor=#23445D;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" parent="1" source="uAPxqi84fl5xrFUujPtx-26" target="AQKVisNj_bnCZf04aFXe-1" edge="1">
           <mxGeometry x="948.64" y="3044.26" width="100" height="100" as="geometry">
             <mxPoint x="1195.1100000000001" y="3055" as="sourcePoint" />
-            <mxPoint x="1461.1900000000005" y="3730" as="targetPoint" />
-            <Array as="points">
-              <mxPoint x="1341.19" y="3730" />
-              <mxPoint x="1228.1100000000001" y="3593.48" />
-            </Array>
+            <mxPoint x="1200" y="3350" as="targetPoint" />
+            <Array as="points" />
           </mxGeometry>
         </mxCell>
         <mxCell id="uAPxqi84fl5xrFUujPtx-79" value="&lt;font color=&quot;#ffffff&quot;&gt;&lt;b&gt;MOVE TO BENCHMARKING&lt;br&gt;BRANCH&amp;nbsp;&lt;/b&gt;&lt;/font&gt;" style="shape=cube;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;darkOpacity=0.05;darkOpacity2=0.1;fontColor=#FFFF00;fillColor=#7EA6E0;" parent="1" vertex="1">
@@ -191,6 +188,33 @@
         </mxCell>
         <mxCell id="uAPxqi84fl5xrFUujPtx-90" value="Coneixes com està evolucionant&#xa;el número de clientes / usuàries / sòcies&#xa;de la teva organització?" style="rounded=1;fillColor=#10739E;strokeColor=none;shadow=1;gradientColor=none;fontStyle=1;fontColor=#FFFFFF;fontSize=14;" parent="1" vertex="1">
           <mxGeometry x="1110.61" y="2530" width="342" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="AQKVisNj_bnCZf04aFXe-2" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=4;endArrow=block;endFill=1;exitX=0.25;exitY=1;exitDx=0;exitDy=0;entryX=0.44;entryY=0.017;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="AQKVisNj_bnCZf04aFXe-1" target="AQKVisNj_bnCZf04aFXe-6">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1170" y="3560" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="AQKVisNj_bnCZf04aFXe-3" value="Sí" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="AQKVisNj_bnCZf04aFXe-2">
+          <mxGeometry x="-0.2857" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="AQKVisNj_bnCZf04aFXe-4" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.229;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;endArrow=block;endFill=1;strokeWidth=4;" edge="1" parent="1" source="AQKVisNj_bnCZf04aFXe-1" target="uAPxqi84fl5xrFUujPtx-79">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="AQKVisNj_bnCZf04aFXe-5" value="No" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="AQKVisNj_bnCZf04aFXe-4">
+          <mxGeometry x="-0.772" y="1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="AQKVisNj_bnCZf04aFXe-1" value="do you use web?" style="rounded=1;fillColor=#10739E;strokeColor=none;shadow=1;gradientColor=none;fontStyle=1;fontSize=14;fontColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="1136.11" y="3350" width="213.89" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="AQKVisNj_bnCZf04aFXe-7" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.004;entryY=0.329;entryDx=0;entryDy=0;entryPerimeter=0;endArrow=block;endFill=1;strokeWidth=4;" edge="1" parent="1" source="AQKVisNj_bnCZf04aFXe-6" target="uAPxqi84fl5xrFUujPtx-79">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="AQKVisNj_bnCZf04aFXe-6" value="&lt;font color=&quot;#ffffff&quot; style=&quot;font-size: 14px&quot;&gt;&lt;b&gt;Web analytics&lt;br&gt;&lt;/b&gt;&lt;/font&gt;" style="shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;strokeColor=#FF0000;fillColor=#FF0000;" vertex="1" parent="1">
+          <mxGeometry x="1125.0000000000002" y="3560" width="150" height="60" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
