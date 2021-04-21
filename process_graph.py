@@ -77,7 +77,7 @@ def add_survey_headers(df, survey_head_df):
 def main(filename):
     graph = Graph(filename)
     graph.get_first_vertex()
-    graph.connect_graph()
+    graph.connect_graph(graph.first_vertex_id)
 
     dics=[]
     for survey_element in graph.survey_elements:
