@@ -4,48 +4,94 @@ import sys
 import re
 import pandas as pd
 
+
+## TO_DO:
+## 1. In from_dictlist_to_df() we did not implement the case where we have multiple source questions and one or more of them have multiple answers bringing to the same box
+## 2. In main(), before merging the "header" we'll have to add a loop on the different branches and append all the df in a single one 
+   
+
 def from_dictlist_to_df(dict_list, branch_name='test', language='en'):
     dd=[]
     dd.append([branch_name+'_branch', 'G','1', 1, 'Group of questions: '+branch_name+' branch', language, None, None, None])
  
     for dic in dict_list:
-        nreplies=len(dic.get('answers'))
+        #print('-------------- ',dic)
+        #print('***** ', dic.keys())
+                
         text=dic.get('text')
         class_type='Q'
+        
+        #print('********  ',text)
+        #print(dic.get('answers'))
+
     
         if dic.get('source_element_id'):
-            source_question=next((item for item in dict_list if item["id"] == dic.get('source_element_id')), None)
-            source_answers=source_question.get('answers')
-        
-            if len(source_answers)>1:
-                stringa=dic.get('source_answer')
-                ai=source_answers.index(stringa)
-                relevance=dic.get('source_element_id')+"=='a"+str(ai+1)+"'"
+            #print('--------**** Question: ', text)
+            #print('--- Number of  source elements: ',len(dic.get('source_element_id')))
+            
+            if len(dic.get('source_element_id'))==1:
+                source_question=next((item for item in dict_list if item["id"] == dic.get('source_element_id')[0]), None)                
+                source_answers=source_question.get('answers')
+                
+                #print('-- Possible answers of the source_question: ', source_answers)
+                #print('-- Length of answers_source_question array: ', len(source_answers))     
+                #print('-- This is the answer that triggers the question: ',dic.get('source_answer'))
+                #print('')
+            
+
+                ## Loop to take into account those cases where more than one answer to the source question lead to the question in consideration
+                j=0
+                for reply in dic.get('source_answer'):
+                    ai=source_answers.index(reply)
+                    if j==0:
+                        relevance=dic.get('source_element_id')[0]+"=='a"+str(ai+1)+"'"
+                    else:
+                        relevance=relevance+" || "+dic.get('source_element_id')[0]+"=='a"+str(ai+1)+"'"
+                    j=j+1
+
             else:
-                relevance=dic.get('source_element_id') ## This must be fixed, now it is not doing what it should
+                #print('----- More than one source question!!!!!!!!: ', len(dic.get('source_element_id')))
+                i=0
+                for quest in dic.get('source_element_id'):
+                    reply=dic.get('source_answer')[i]
+                    
+                    source_question=next((item for item in dict_list if item["id"] == quest), None)
+                    source_answers=source_question.get('answers')
+
+                    ai=source_answers.index(reply)                                                        
+
+                    if i==0:
+                        relevance=quest+".NAOK=='a"+str(ai+1)+"'"
+                    else:
+                        relevance=relevance+" || "+quest+".NAOK=='a"+str(ai+1)+"'"
+                    i=i+1                 
+ 
+        
         else:
             relevance=1
-        
-        if nreplies>1:
+            
+        if (len(list(set(dic.get('answers'))))==1 and list(set(dic.get('answers')))[0]==''):
+            nreplies=0
+        else:
+            nreplies=len(dic.get('answers'))
+                
+        if nreplies>0:
             question_type='L'
             mandatory='Y'
         else:
+            question_type='X'
+            mandatory='N'
             if (re.search('font color', text)): ##Might be a good idea to look for a more general rule to identify the red boxes..
-                question_type='X'
-                mandatory='N'
-
                 pattern="<b>(.*?)</b>" ## Here too, not sure how general it is this pattern
                 service = re.search(pattern, dic.get('text')).group(1)
                 service = re.sub('<br>', ' ', service)
             
                 if (re.search('MOVE TO', text)):   ## Used to separate the "MOVE TO BRANCH..." box from the service boxes
                     text="You can move to a new branch"
+                    mandatory='Y'
                 else:
                     text="You might be interested in the following service: "+service
-            else:  ## In theory it never enters here, there are not such cases
-                class_type=None
-                question_type=None
-                mandatory='N'
+                    
             
         dd.append([dic.get('id'), class_type, question_type, relevance,  text, language, None, mandatory, 'N'])
     
@@ -55,6 +101,20 @@ def from_dictlist_to_df(dict_list, branch_name='test', language='en'):
 
 
     df = pd.DataFrame(dd, columns=['name',  'class', 'type/scale', 'relevance','text', 'language', 'assessment_value', 'mandatory', 'other'])
+
+
+    ## Reordering the df (putting all the messages about possible services at the end and the "move to new branch"-message as the last one)
+    final_row=df.index[df['text'] == 'You can move to a new branch'].tolist()
+    message_rows=df.index[(df['type/scale'] == 'X')].tolist()
+    message_rows.remove(final_row[0])
+    #print('Indexes of rows to show at the end: ', message_rows)
+    #print('Index of final message: ', final_row)
+
+    df_part1=df.iloc[[i for i in df.index if (i not in message_rows) and (i not in final_row)], :]
+    df_part2=df.iloc[message_rows, :]
+    df_part3=df.iloc[final_row, :]
+
+    df=pd.concat([df_part1, df_part2, df_part3])
     return df
 
 
@@ -74,6 +134,7 @@ def add_survey_headers(df, survey_head_df):
 
     return dd
 
+
 def main(filename):
     graph = Graph(filename)
     graph.get_first_vertex()
@@ -84,8 +145,11 @@ def main(filename):
         print(survey_element)
         dics.append(survey_element)
 
-    df=from_dictlist_to_df(dics, branch_name='test')
+    #print(dics)
 
+    df=from_dictlist_to_df(dics, branch_name='test')
+    print(df.tail(10))
+    
     ##TO_DO: Before merging the "header" we'll have to add a loop on the different branches and append all the df in a single one 
     
     ##-- Loading a csv containing the general survey information (obtained from the export of a survey created in limesurvey as example)
