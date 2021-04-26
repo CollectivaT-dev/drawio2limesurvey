@@ -107,7 +107,8 @@ class Graph(object):
                           "answers":[v[1] for v in vertex_edges],
                           "targets":[v[0].get('target')[-7:] for v in vertex_edges]}
         if vertex.get("source_element_id"):
-            survey_element["source_element_id"] = vertex.get("source_element_id")[-7:]
+            #survey_element["source_element_id"] = vertex.get("source_element_id")[-7:]
+            survey_element["source_element_id"]=[s_id[-7:] for s_id in vertex.get('source_element_id')]
         survey_element["source_answer"] = vertex.get("source_answer")
 
         return survey_element
