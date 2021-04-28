@@ -127,8 +127,9 @@ class Graph(object):
         # omit merging answers because at each pass they are complete
         if se_dic.get(se_element['id']):
             se_original = se_dic.get(se_element['id'])
-            if se_original.get('answers'):
-                se_original.pop('answers')
+            for key in ['answers', 'targets']:
+                if se_original.get(key):
+                    se_original.pop(key)
             # joining the two dicts, order matters
             # se_original comes last, hence its list will propagate to joined
             # disregarding the se_element value of the conflicting key
