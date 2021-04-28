@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup as bs
 from copy import copy
 import sys
+import re
 
 class Graph(object):
     def __init__(self, filename):
@@ -9,6 +10,7 @@ class Graph(object):
             content = f.read()
         self.bs_content = bs(content, "lxml")
         self.edges = self.bs_content.findAll('mxcell', attrs={'edge':'1'})
+        self.strip = re.compile('<.*?>')
 
     def get_first_vertex(self):
         sources = set()
@@ -34,10 +36,9 @@ class Graph(object):
             vertex = vertices_to_process[0]
             vertex_edges = self.get_out_edges(vertex.get('id'))
             vertex_answers = [v[1] for v in vertex_edges]
-            #print('* processing', vertex.get('id'), vertex.get('value').replace('\n',''), vertex.get('source_answer'))
+            #print('* processing', vertex.get('id'), vertex.get('value').replace('\n',' '), vertex.get('source_answer'))
             next_vertices = self.get_next_vertices(vertex, vertex_edges)
             survey_element = self.gen_survey_elements(vertex, vertex_edges)
-            print('will be written as', survey_element)
             # repeating vertices are merged to incorporate different parents
             self.merge_survey_elements(survey_elements, survey_element)
             if None in survey_element['targets']:
@@ -71,7 +72,7 @@ class Graph(object):
                 if None in edge:
                     # source vertex
                     # target vertex
-                    raise ValueError('an vertex has an edge without an answer')
+                    raise ValueError('a vertex has an edge without an answer')
         return vertex_edges_wanswer
 
     def get_next_vertices(self, vertex, vertex_edges):
@@ -102,21 +103,32 @@ class Graph(object):
         return next_vertices
 
     def gen_survey_elements(self, vertex, vertex_edges):
+        text = self.strip_html(vertex.get('value'))
         survey_element = {"id":vertex.get('id')[-7:],
-                          "text": vertex.get('value').replace('\n',' '),
-                          "answers":[v[1] for v in vertex_edges],
+                          "text": text.replace('\n',' '),
+                          "answers":[self.strip_html(v[1]) for v in vertex_edges],
                           "targets":[v[0].get('target')[-7:] for v in vertex_edges]}
         if vertex.get("source_element_id"):
             #survey_element["source_element_id"] = vertex.get("source_element_id")[-7:]
             survey_element["source_element_id"]=[s_id[-7:] for s_id in vertex.get('source_element_id')]
-        survey_element["source_answer"] = vertex.get("source_answer")
+        if vertex.get("source_answer"):
+            survey_element["source_answer"] = [self.strip_html(v) for v in vertex.get("source_answer")]
 
         return survey_element
 
+    def strip_html(self, string):
+        if string:
+            return self.strip.sub('', string.replace('<br>', ' '))
+        else:
+            return ''
+
     def merge_survey_elements(self, se_dic, se_element):
         # if se_element is already in se_dic, new values are appended
+        # omit merging answers because at each pass they are complete
         if se_dic.get(se_element['id']):
             se_original = se_dic.get(se_element['id'])
+            if se_original.get('answers'):
+                se_original.pop('answers')
             # joining the two dicts, order matters
             # se_original comes last, hence its list will propagate to joined
             # disregarding the se_element value of the conflicting key
