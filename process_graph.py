@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup as bs
 from graph import Graph
 import sys
+import os
 import re
 import pandas as pd
 
@@ -9,10 +10,9 @@ import pandas as pd
 ## 1. In from_dictlist_to_df() we did not implement the case where we have multiple source questions and one or more of them have multiple answers bringing to the same box
 ## 2. In main(), before merging the "header" we'll have to add a loop on the different branches and append all the df in a single one 
    
-
 def from_dictlist_to_df(dict_list, branch_name='test', language='en'):
     dd=[]
-    dd.append([branch_name+'_branch', 'G','1', 1, 'Group of questions: '+branch_name+' branch', language, None, None, None])
+    dd.append([branch_name, 'G','1', 1, 'Preguntes temàtiques de '+branch_name, language, None, None, None])
  
     for dic in dict_list:
         #print('-------------- ',dic)
@@ -28,16 +28,13 @@ def from_dictlist_to_df(dict_list, branch_name='test', language='en'):
         if dic.get('source_element_id'):
             #print('--------**** Question: ', text)
             #print('--- Number of  source elements: ',len(dic.get('source_element_id')))
-            
             if len(dic.get('source_element_id'))==1:
-                source_question=next((item for item in dict_list if item["id"] == dic.get('source_element_id')[0]), None)                
+                source_question=next((item for item in dict_list if item["id"] == dic.get('source_element_id')[0]), None)
                 source_answers=source_question.get('answers')
-                
                 #print('-- Possible answers of the source_question: ', source_answers)
                 #print('-- Length of answers_source_question array: ', len(source_answers))     
                 #print('-- This is the answer that triggers the question: ',dic.get('source_answer'))
                 #print('')
-            
 
                 ## Loop to take into account those cases where more than one answer to the source question lead to the question in consideration
                 j=0
@@ -82,11 +79,9 @@ def from_dictlist_to_df(dict_list, branch_name='test', language='en'):
             question_type='X'
             mandatory='N'
             if (re.search('font color', text)): ##Might be a good idea to look for a more general rule to identify the red boxes..
-                pattern="<b>(.*?)</b>" ## Here too, not sure how general it is this pattern
-                service = re.search(pattern, dic.get('text')).group(1)
-                service = re.sub('<br>', ' ', service)
+                service = re.sub('<.*?>', '', dic.get('text'))
             
-                if (re.search('MOVE TO', text)):   ## Used to separate the "MOVE TO BRANCH..." box from the service boxes
+                if (re.search('CONTINUA A', text)):   ## Used to separate the "MOVE TO BRANCH..." box from the service boxes
                     text="You can move to a new branch"
                     mandatory='Y'
                 else:
@@ -104,7 +99,8 @@ def from_dictlist_to_df(dict_list, branch_name='test', language='en'):
 
 
     ## Reordering the df (putting all the messages about possible services at the end and the "move to new branch"-message as the last one)
-    final_row=df.index[df['text'] == 'You can move to a new branch'].tolist()
+    final_row=df.index[df['text'].str.contains("continua a", case=False)].tolist()
+    print(final_row)
     message_rows=df.index[(df['type/scale'] == 'X')].tolist()
     message_rows.remove(final_row[0])
     #print('Indexes of rows to show at the end: ', message_rows)
@@ -135,7 +131,7 @@ def add_survey_headers(df, survey_head_df):
     return dd
 
 
-def main(filename):
+def main(filename, branch_name):
     graph = Graph(filename)
     graph.get_first_vertex()
     graph.connect_graph(graph.first_vertex_id)
@@ -147,7 +143,7 @@ def main(filename):
 
     #print(dics)
 
-    df=from_dictlist_to_df(dics, branch_name='test')
+    df=from_dictlist_to_df(dics, branch_name)
     print(df.tail(10))
     
     ##TO_DO: Before merging the "header" we'll have to add a loop on the different branches and append all the df in a single one 
@@ -158,12 +154,13 @@ def main(filename):
     ##-- Adding the "header"
     df_survey=add_survey_headers(df, survey_head)
 
-
+    outfile = os.path.basename(filename).replace('.xml','')+'.txt'
     ##-- Saving the final df as csv:
-    df_survey.drop(['index'],axis=1).to_csv('survey_enfortim_test.txt', sep='\t', index=False)
+    df_survey.drop(['index'],axis=1).to_csv(outfile, sep='\t', index=False)
 
 
     
 if __name__ == "__main__":
-    filename = sys.argv[1] 
-    main(filename)
+    filename = sys.argv[1]
+    branch_name = sys.argv[2] 
+    main(filename, branch_name)
