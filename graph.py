@@ -113,6 +113,9 @@ class Graph(object):
             survey_element["source_element_id"]=[s_id[-7:] for s_id in vertex.get('source_element_id')]
         if vertex.get("source_answer"):
             survey_element["source_answer"] = [self.strip_html(v) for v in vertex.get("source_answer")]
+        # TODO multiple choice color should not be exact but some hue of green
+        if self.get_color(vertex) == "#d5e8d4":
+            survey_element["multiple_choice"] = True
 
         return survey_element
 
@@ -140,3 +143,11 @@ class Graph(object):
             se_dic[se_element['id']] = se_joined
         else:
             se_dic[se_element['id']] = se_element
+
+    def get_color(self, vertex):
+        style = vertex.get('style')
+        if style:
+            m = re.search('(fillColor=)(.*?)(;)',style)
+            if m:
+                color = m.groups()[1]
+                return color
