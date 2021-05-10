@@ -47,7 +47,7 @@ def from_dictlist_to_df(dict_list, branch_name='test', language='en'):
                     j=j+1
 
             else:
-                #print('----- More than one source question!!!!!!!!: ', len(dic.get('source_element_id')))
+                #print('----- More than one source question or source answer!!!!: ', len(dic.get('source_element_id')))
                 i=0
                 for quest in dic.get('source_element_id'):
                     reply=dic.get('source_answer')[i]
@@ -57,13 +57,19 @@ def from_dictlist_to_df(dict_list, branch_name='test', language='en'):
 
                     ai=source_answers.index(reply)                                                        
 
-                    if i==0:
-                        relevance=quest+".NAOK=='a"+str(ai+1)+"'"
-                    else:
-                        relevance=relevance+" || "+quest+".NAOK=='a"+str(ai+1)+"'"
+                    if source_question.get('multiple_choice'):
+                        #print('!!!! multiple answers allowed for question: ', source_question.get('text'))
+                        if i==0:
+                            relevance="count(that."+quest+".NAOK)>0"   ## => Has any part of question quest been answered?
+                        else:
+                            relevance=relevance+" || count(that."+quest+".NAOK)>0"
+                    else: 
+                        if i==0:
+                            relevance=quest+".NAOK=='a"+str(ai+1)+"'"
+                        else:
+                            relevance=relevance+" || "+quest+".NAOK=='a"+str(ai+1)+"'"
                     i=i+1                 
- 
-        
+
         else:
             relevance=1
             
@@ -73,7 +79,13 @@ def from_dictlist_to_df(dict_list, branch_name='test', language='en'):
             nreplies=len(dic.get('answers'))
                 
         if nreplies>0:
-            question_type='L'
+            if dic.get('multiple_choice'):
+                question_type='M'
+                answer_type='SQ'
+            else: 
+                question_type='L'
+                answer_type='A'
+                
             mandatory='Y'
         else:
             question_type='X'
@@ -90,9 +102,9 @@ def from_dictlist_to_df(dict_list, branch_name='test', language='en'):
             
         dd.append([dic.get('id'), class_type, question_type, relevance,  text, language, None, mandatory, 'N'])
     
-        if nreplies>0 and question_type=='L': 
+        if nreplies>0 and (question_type=='L' or question_type=='M'): 
             for i in range(0, nreplies): ## Adding a new record for each possible answer
-                dd.append(['a'+str(i+1), 'A', 0, None, dic.get('answers')[i], language, 0.0, None, None])
+                dd.append(['a'+str(i+1), answer_type, 0, None, dic.get('answers')[i], language, 0.0, None, None])
 
 
     df = pd.DataFrame(dd, columns=['name',  'class', 'type/scale', 'relevance','text', 'language', 'assessment_value', 'mandatory', 'other'])
