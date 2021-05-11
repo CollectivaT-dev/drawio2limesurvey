@@ -4,15 +4,16 @@ import sys
 import os
 import re
 import pandas as pd
+import argparse
 
 
 ## TO_DO:
 ## 1. In from_dictlist_to_df() we did not implement the case where we have multiple source questions and one or more of them have multiple answers bringing to the same box
 ## 2. In main(), before merging the "header" we'll have to add a loop on the different branches and append all the df in a single one 
    
-def from_dictlist_to_df(dict_list, branch_name='test', language='en'):
+def from_dictlist_to_df(dict_list, branch_name='test', branch_number='1', language='en'):
     dd=[]
-    dd.append([branch_name, 'G','1', 1, 'Preguntes temàtiques de '+branch_name, language, None, None, None])
+    dd.append([branch_name, 'G',branch_number, 1, 'Preguntes temàtiques de '+branch_name, language, None, None, None])
  
     for dic in dict_list:
         #print('-------------- ',dic)
@@ -143,36 +144,71 @@ def add_survey_headers(df, survey_head_df):
     return dd
 
 
-def main(filename, branch_name):
-    graph = Graph(filename)
-    graph.get_first_vertex()
-    graph.connect_graph(graph.first_vertex_id)
+def main(filenames, branch_names):
 
-    dics=[]
-    for survey_element in graph.survey_elements:
-        print(survey_element)
-        dics.append(survey_element)
+    dd=[]
+    i=1
+    for branch, b_name in zip(filenames, branch_names):
+        #print('++++++++++++++++ branch file: ', branch)
+        #print('-----------------branch name: ', b_name)
+        graph = Graph(branch)
+        graph.get_first_vertex()
+        graph.connect_graph(graph.first_vertex_id)
 
-    #print(dics)
+        dics=[]
+        for survey_element in graph.survey_elements:
+            print(survey_element)
+            dics.append(survey_element)
 
-    df=from_dictlist_to_df(dics, branch_name)
-    print(df.tail(10))
-    
-    ##TO_DO: Before merging the "header" we'll have to add a loop on the different branches and append all the df in a single one 
-    
+        #print(dics)
+
+        df_b=from_dictlist_to_df(dics, b_name, branch_number=str(i))
+        print(df_b.tail(10))
+
+        dd.append(df_b) #, ignore_index=True)
+        i=i+1
+        
+    df = pd.concat(dd)
+
     ##-- Loading a csv containing the general survey information (obtained from the export of a survey created in limesurvey as example)
     survey_head=pd.read_csv('AF_limesurvey_headlines.csv', sep='\t')
 
     ##-- Adding the "header"
     df_survey=add_survey_headers(df, survey_head)
 
-    outfile = os.path.basename(filename).replace('.xml','')+'.txt'
+    outfile = os.path.basename(branch).replace('.xml','')+'.txt'
     ##-- Saving the final df as csv:
     df_survey.drop(['index'],axis=1).to_csv(outfile, sep='\t', index=False)
 
 
     
 if __name__ == "__main__":
-    filename = sys.argv[1]
-    branch_name = sys.argv[2] 
-    main(filename, branch_name)
+
+    CLI=argparse.ArgumentParser()
+    CLI.add_argument(
+        "--files_list",  # name on the CLI - drop the `--` for positional/required parameters
+        nargs="*",  # 0 or more values expected => creates a list
+        type=str,
+        default=[],  # default if nothing is provided
+    )
+    CLI.add_argument(
+        "--names_list",
+        nargs="*",
+        type=str,  # any type/callable can be used here
+        default=[],
+    )
+
+    ## parse the command line
+    args = CLI.parse_args()
+    ## access CLI options
+    #print("lista: %r" % args.files_list)
+    #print("listb: %r" % args.names_list)
+
+    filenames =args.files_list
+    branch_names = args.names_list
+    print("files: ", filenames)
+    print("names: ", branch_names)
+    
+    main(filenames, branch_names)
+
+
