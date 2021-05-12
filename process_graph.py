@@ -27,8 +27,8 @@ def from_dictlist_to_df(dict_list, branch_name='test', branch_number='1', langua
 
     
         if dic.get('source_element_id'):
-            #print('--------**** Question: ', text)
-            #print('--- Number of  source elements: ',len(dic.get('source_element_id')))
+            print('--------**** Question: ', text)
+            print('--- Number of  source elements: ',len(dic.get('source_element_id')))
             if len(dic.get('source_element_id'))==1:
                 source_question=next((item for item in dict_list if item["id"] == dic.get('source_element_id')[0]), None)
                 source_answers=source_question.get('answers')
@@ -36,41 +36,52 @@ def from_dictlist_to_df(dict_list, branch_name='test', branch_number='1', langua
                 #print('-- Length of answers_source_question array: ', len(source_answers))     
                 #print('-- This is the answer that triggers the question: ',dic.get('source_answer'))
                 #print('')
-
+            
                 ## Loop to take into account those cases where more than one answer to the source question lead to the question in consideration
-                j=0
+                j=0 
                 for reply in dic.get('source_answer'):
                     ai=source_answers.index(reply)
                     if j==0:
-                        relevance=dic.get('source_element_id')[0]+"=='a"+str(ai+1)+"'"
+                        if  source_question.get('multiple_choice'):
+                            relevance=dic.get('source_element_id')[0]+"_a"+str(ai+1)+".NAOK=='Y'"
+                        else:
+                            relevance=dic.get('source_element_id')[0]+".NAOK=='a"+str(ai+1)+"'"
                     else:
-                        relevance=relevance+" || "+dic.get('source_element_id')[0]+"=='a"+str(ai+1)+"'"
+                        if  source_question.get('multiple_choice'):
+                            relevance=relevance+" || "+dic.get('source_element_id')[0]+"_a"+str(ai+1)+".NAOK=='Y'"
+                        else:
+                            relevance=relevance+" || "+dic.get('source_element_id')[0]+".NAOK=='a"+str(ai+1)+"'"
                     j=j+1
-
+            
             else:
-                #print('----- More than one source question or source answer!!!!: ', len(dic.get('source_element_id')))
+                print('----- More than one source question or source answer!!!!: ', len(dic.get('source_element_id')))
                 i=0
                 for quest in dic.get('source_element_id'):
                     reply=dic.get('source_answer')[i]
-                    
+                
                     source_question=next((item for item in dict_list if item["id"] == quest), None)
                     source_answers=source_question.get('answers')
 
-                    ai=source_answers.index(reply)                                                        
+                    ai=source_answers.index(reply)                                                      
 
                     if source_question.get('multiple_choice'):
                         #print('!!!! multiple answers allowed for question: ', source_question.get('text'))
                         if i==0:
-                            relevance="count(that."+quest+".NAOK)>0"   ## => Has any part of question quest been answered?
+                            #rel_A="count(that."+quest+".NAOK)>0"  # => Has any part of question quest been answered?
+                            rel_B=quest+"_a"+str(ai+1)+".NAOK=='Y'"
+                            relevance=rel_B
+                            #relevance=rel_A+" && "+rel_B
                         else:
-                            relevance=relevance+" || count(that."+quest+".NAOK)>0"
+                            rel_B=rel_B+" || "+quest+"_a"+str(ai+1)+".NAOK=='Y'"
+                            relevance=rel_B
+                            #relevance=rel_A+" && ("+rel_B+")"
                     else: 
                         if i==0:
                             relevance=quest+".NAOK=='a"+str(ai+1)+"'"
                         else:
                             relevance=relevance+" || "+quest+".NAOK=='a"+str(ai+1)+"'"
-                    i=i+1                 
-
+                    i=i+1
+                
         else:
             relevance=1
             
@@ -82,7 +93,7 @@ def from_dictlist_to_df(dict_list, branch_name='test', branch_number='1', langua
         if nreplies>0:
             if dic.get('multiple_choice'):
                 question_type='M'
-                answer_type='SQ'
+                answer_type='SQ' 
             else: 
                 question_type='L'
                 answer_type='A'
