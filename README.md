@@ -13,5 +13,5 @@ pip install -r requirements.txt
 
 Launch the test
 ```
-python process_graph.py test.xml
+python process_graph.py --files_list branch1.xml branch2.xml  --names_list name1 name2
 ```
