@@ -105,11 +105,14 @@ def from_dictlist_to_df(dict_list, branch_name='test', branch_number='1', langua
             if (re.search('font color', text)): ##Might be a good idea to look for a more general rule to identify the red boxes..
                 service = re.sub('<.*?>', '', dic.get('text'))
             
-                if (re.search('CONTINUA A', text)):   ## Used to separate the "MOVE TO BRANCH..." box from the service boxes
-                    text="You can move to a new branch"
+                if re.search('CONTINUA A', text):   ## Used to separate the "MOVE TO BRANCH..." box from the service boxes
+                    #text="You can move to a new branch"
+                    text = "Pot continuar a l'altra temàtica"
                     mandatory='Y'
+                elif re.search("THE END", text):
+                    text = "Fi"
                 else:
-                    text="You might be interested in the following service: "+service
+                    text = "Us pot interessar el servei: "+service
                     
             
         dd.append([dic.get('id'), class_type, question_type, relevance,  text, language, None, mandatory, 'N'])
@@ -123,7 +126,7 @@ def from_dictlist_to_df(dict_list, branch_name='test', branch_number='1', langua
 
 
     ## Reordering the df (putting all the messages about possible services at the end and the "move to new branch"-message as the last one)
-    final_row=df.index[df['text'].str.contains("continua a", case=False)].tolist()
+    final_row=df.index[df['text'].str.contains("continua a|the end", case=False)].tolist()
     print(final_row)
     message_rows=df.index[(df['type/scale'] == 'X')].tolist()
     message_rows.remove(final_row[0])
