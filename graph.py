@@ -104,13 +104,14 @@ class Graph(object):
 
     def gen_survey_elements(self, vertex, vertex_edges):
         text = self.strip_html(vertex.get('value'))
-        survey_element = {"id":vertex.get('id')[-7:],
+        # TODO find a more robust way to fix char id problem
+        survey_element = {"id":'a'+vertex.get('id')[-7:],
                           "text": text.replace('\n',' '),
                           "answers":[self.strip_html(v[1]) for v in vertex_edges],
-                          "targets":[v[0].get('target')[-7:] for v in vertex_edges]}
+                          "targets":['a'+v[0].get('target')[-7:] for v in vertex_edges]}
         if vertex.get("source_element_id"):
             #survey_element["source_element_id"] = vertex.get("source_element_id")[-7:]
-            survey_element["source_element_id"]=[s_id[-7:] for s_id in vertex.get('source_element_id')]
+            survey_element["source_element_id"]=['a'+s_id[-7:] for s_id in vertex.get('source_element_id')]
         if vertex.get("source_answer"):
             survey_element["source_answer"] = [self.strip_html(v) for v in vertex.get("source_answer")]
         # TODO multiple choice color should not be exact but some hue of green
