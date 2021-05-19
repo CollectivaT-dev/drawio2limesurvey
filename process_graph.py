@@ -11,7 +11,7 @@ import argparse
 ## 1. In from_dictlist_to_df() we did not implement the case where we have multiple source questions and one or more of them have multiple answers bringing to the same box
 ## 2. In main(), before merging the "header" we'll have to add a loop on the different branches and append all the df in a single one 
    
-def from_dictlist_to_df(dict_list, branch_name='test', branch_number='1', language='en'):
+def from_dictlist_to_df(dict_list, branch_name='test', branch_number='1', language='ca'):
     dd=[]
     dd.append([branch_name, 'G',branch_number, 1, 'Preguntes temàtiques de '+branch_name, language, None, None, None])
  
