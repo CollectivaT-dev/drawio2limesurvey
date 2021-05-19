@@ -32,21 +32,32 @@ class Graph(object):
                                             attrs={'id':first_vertex})]
         self.survey_elements = []
         survey_elements = {}
+        already_processed = []
         while vertices_to_process:
             vertex = vertices_to_process[0]
             vertex_edges = self.get_out_edges(vertex.get('id'))
             vertex_answers = [v[1] for v in vertex_edges]
-            #print('* processing', vertex.get('id'), vertex.get('value').replace('\n',' '), vertex.get('source_answer'))
+            '''
+            print('* processing', vertex.get('id'),
+                  vertex.get('value').replace('\n',' '),
+                  vertex.get('source_answer'))
+            '''
             next_vertices = self.get_next_vertices(vertex, vertex_edges)
             survey_element = self.gen_survey_elements(vertex, vertex_edges)
             # repeating vertices are merged to incorporate different parents
             self.merge_survey_elements(survey_elements, survey_element)
             if None in survey_element['targets']:
                 raise ValueError('%s has an edge without a target'%survey_element['text'])
-            vertices_to_process.pop(0)
-            vertices_to_process += next_vertices
-            #print('vertices left to be processed')
-            #print([(v.get('id'), v.get('source_element_id'), v.get('source_answer')) for v in vertices_to_process])
+            already_processed.append(vertices_to_process.pop(0))
+            # add only the next vertices that do not exist in the process list
+            for nv in next_vertices:
+                if nv not in vertices_to_process and nv not in already_processed:
+                    vertices_to_process.append(nv)
+            '''
+            print('vertices left to be processed')
+            print([(v.get('id'), v.get('source_element_id'), v.get('source_answer'))\
+                     for v in vertices_to_process])
+            '''
         self.survey_elements = list(survey_elements.values())
 
     def get_out_edges(self, source_id):
