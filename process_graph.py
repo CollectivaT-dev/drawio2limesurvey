@@ -67,14 +67,11 @@ def from_dictlist_to_df(dict_list, branch_name='test', branch_number='1', langua
                     if source_question.get('multiple_choice'):
                         #print('!!!! multiple answers allowed for question: ', source_question.get('text'))
                         if i==0:
-                            #rel_A="count(that."+quest+".NAOK)>0"  # => Has any part of question quest been answered?
-                            rel_B=quest+"_a"+str(ai+1)+".NAOK=='Y'"
-                            relevance=rel_B
-                            #relevance=rel_A+" && "+rel_B
+                            #print('step:  ',i)
+                            relevance=quest+"_a"+str(ai+1)+".NAOK=='Y'"
                         else:
-                            rel_B=rel_B+" || "+quest+"_a"+str(ai+1)+".NAOK=='Y'"
-                            relevance=rel_B
-                            #relevance=rel_A+" && ("+rel_B+")"
+                            #print('step:  ',i)
+                            relevance=relevance+" || "+quest+"_a"+str(ai+1)+".NAOK=='Y'"
                     else: 
                         if i==0:
                             relevance=quest+".NAOK=='a"+str(ai+1)+"'"
