@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<mxfile host="Electron" modified="2021-05-10T10:43:40.061Z" agent="5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/14.1.8 Chrome/87.0.4280.88 Electron/11.1.1 Safari/537.36" etag="a8QGVK2o8e2NF4de9Cex" version="14.1.8" type="device">
+<mxfile host="Electron" modified="2021-05-24T10:33:16.523Z" agent="5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/14.1.8 Chrome/87.0.4280.88 Electron/11.1.1 Safari/537.36" etag="9bygBJ45sShSRxSUbvEV" version="14.1.8" type="device">
   <diagram id="E4EbTCZo0j46mBwLDqWa" name="Page-1">
-    <mxGraphModel dx="-3998" dy="-9341" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="-3692" dy="-9089" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -137,7 +137,7 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="fWWiXPJhzNvJp0fD4Rov-23" value="&lt;b style=&quot;color: rgb(255 , 255 , 255)&quot;&gt;CONTINUA A&lt;br&gt;MÀRQUETING&lt;/b&gt;" style="shape=cube;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;darkOpacity=0.05;darkOpacity2=0.1;fontColor=#FFFF00;fillColor=#7EA6E0;" parent="1" vertex="1">
+        <mxCell id="fWWiXPJhzNvJp0fD4Rov-23" value="&lt;b style=&quot;color: rgb(255 , 255 , 255)&quot;&gt;CONTINUA A&lt;br&gt;PRODUCTE/SERVEI&lt;br&gt;&lt;/b&gt;" style="shape=cube;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;darkOpacity=0.05;darkOpacity2=0.1;fontColor=#FFFF00;fillColor=#7EA6E0;" parent="1" vertex="1">
           <mxGeometry x="6029.999999999999" y="11490" width="172.81" height="97.24" as="geometry" />
         </mxCell>
         <mxCell id="fWWiXPJhzNvJp0fD4Rov-24" value="Sabeu quants contactes/interaccions&#xa;generalment necessiteu perquè&#xa;les potencials sòcies o &quot;clientes&quot;&#xa;es decideixin a comprar-vos?" style="rounded=1;fillColor=#10739E;strokeColor=none;shadow=1;gradientColor=none;fontStyle=1;fontSize=14;fontColor=#FFFFFF;" parent="1" vertex="1">
