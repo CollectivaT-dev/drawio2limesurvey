@@ -1,11 +1,13 @@
 from bs4 import BeautifulSoup as bs
 from copy import copy
+from pathlib import Path
 import sys
 import re
 
 class Graph(object):
     def __init__(self, filename):
         #TODO check if file xml and correct format
+        self.filename = filename
         with open(filename) as f:
             content = f.read()
         self.bs_content = bs(content, "lxml")
@@ -116,13 +118,13 @@ class Graph(object):
     def gen_survey_elements(self, vertex, vertex_edges):
         text = self.strip_html(vertex.get('value'))
         # TODO find a more robust way to fix char id problem
-        survey_element = {"id":'a'+vertex.get('id')[-7:],
+        survey_element = {"id":self.give_id(vertex.get('id')),
                           "text": text.replace('\n',' '),
                           "answers":[self.strip_html(v[1]) for v in vertex_edges],
-                          "targets":['a'+v[0].get('target')[-7:] for v in vertex_edges]}
+                          "targets":[self.give_id(v[0].get('target')) for v in vertex_edges]}
         if vertex.get("source_element_id"):
             #survey_element["source_element_id"] = vertex.get("source_element_id")[-7:]
-            survey_element["source_element_id"]=['a'+s_id[-7:] for s_id in vertex.get('source_element_id')]
+            survey_element["source_element_id"]=[self.give_id(s_id) for s_id in vertex.get('source_element_id')]
         if vertex.get("source_answer"):
             survey_element["source_answer"] = [self.strip_html(v) for v in vertex.get("source_answer")]
         # TODO multiple choice color should not be exact but some hue of green
@@ -163,3 +165,7 @@ class Graph(object):
             if m:
                 color = m.groups()[1]
                 return color
+
+    def give_id(self, base_id):
+        name = Path(self.filename).name
+        return name[:3].lower()+base_id[-4:]
