@@ -60,7 +60,8 @@ class Graph(object):
             print([(v.get('id'), v.get('source_element_id'), v.get('source_answer'))\
                      for v in vertices_to_process])
             '''
-        self.survey_elements = list(survey_elements.values())
+        # get question order
+        self.survey_elements = self.calculate_order(survey_elements)
 
     def get_out_edges(self, source_id):
         v_edges = []
@@ -117,11 +118,11 @@ class Graph(object):
 
     def gen_survey_elements(self, vertex, vertex_edges):
         text = self.strip_html(vertex.get('value'))
-        # TODO find a more robust way to fix char id problem
         survey_element = {"id":self.give_id(vertex.get('id')),
                           "text": text.replace('\n',' '),
                           "answers":[self.strip_html(v[1]) for v in vertex_edges],
-                          "targets":[self.give_id(v[0].get('target')) for v in vertex_edges]}
+                          "targets":[self.give_id(v[0].get('target')) for v in vertex_edges],
+                          "y": vertex.findChild('mxgeometry').get('y')}
         if vertex.get("source_element_id"):
             #survey_element["source_element_id"] = vertex.get("source_element_id")[-7:]
             survey_element["source_element_id"]=[self.give_id(s_id) for s_id in vertex.get('source_element_id')]
@@ -169,3 +170,17 @@ class Graph(object):
     def give_id(self, base_id):
         name = Path(self.filename).name
         return name[:3].lower()+base_id[-4:]
+
+    def calculate_order(self, survey_elements):
+        # accepts a dictionary returns an ordered list
+        ys = []
+        survey_elements_list = []
+        for se_id, element in survey_elements.items():
+            # TODO None or ['']
+            if element['answers'] != ['']:
+                ys.append((se_id, float(element['y'])))
+        for se_id, y in sorted(ys, key = lambda x: x[1]):
+            survey_elements_list.append(survey_elements[se_id])
+            survey_elements.pop(se_id)
+        return survey_elements_list + list(survey_elements.values())
+
