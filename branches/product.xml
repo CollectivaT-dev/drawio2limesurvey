@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<mxfile host="Electron" modified="2021-05-24T09:52:05.120Z" agent="5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/14.1.8 Chrome/87.0.4280.88 Electron/11.1.1 Safari/537.36" etag="FnGv_Uwlrq_wpdEobC9V" version="14.1.8" type="device">
+<mxfile host="Electron" modified="2021-05-26T08:13:53.318Z" agent="5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/14.1.8 Chrome/87.0.4280.88 Electron/11.1.1 Safari/537.36" etag="QllQXQBu26UaIK_TRQuv" version="14.1.8" type="device">
   <diagram id="Kx8YdEa_kTDhDmy4udJn" name="Page-1">
     <mxGraphModel dx="-5392" dy="-9089" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
@@ -362,6 +362,11 @@
             </Array>
           </mxGeometry>
         </mxCell>
+        <mxCell id="nylE6NXhxsO_X8nIw7MO-139" value="No" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="59">
+          <mxGeometry x="-0.0396" y="-1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
         <mxCell id="60" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=4;exitX=0.387;exitY=1.035;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0;entryY=0.25;entryDx=0;entryDy=0;" parent="1" source="61" target="66" edge="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="8506.140000000001" y="13466.76" as="targetPoint" />
@@ -373,18 +378,13 @@
             </Array>
           </mxGeometry>
         </mxCell>
+        <mxCell id="nylE6NXhxsO_X8nIw7MO-140" value="Sí" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="60">
+          <mxGeometry x="-0.2988" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
         <mxCell id="61" value="Les economies d&#39;escala s&#39;apliquen als&#xa;vostres serveis o productes?&#xa;És a dir incrementar la producció&#xa;disminuiex el cost unitari del producte?" style="rounded=1;fillColor=#10739E;strokeColor=none;shadow=1;gradientColor=none;fontStyle=1;fontSize=14;fontColor=#FFFFFF;" parent="1" vertex="1">
           <mxGeometry x="8276.140000000001" y="13320" width="340" height="93" as="geometry" />
-        </mxCell>
-        <mxCell id="62" value="No" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontColor=#000000;" parent="1" vertex="1" connectable="0">
-          <mxGeometry x="8370.000000000002" y="13490" as="geometry">
-            <mxPoint x="-6" y="-1" as="offset" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="63" value="Sí" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontColor=#000000;" parent="1" vertex="1" connectable="0">
-          <mxGeometry x="8410.000000000002" y="13450" as="geometry">
-            <mxPoint x="-6" y="-1" as="offset" />
-          </mxGeometry>
         </mxCell>
         <mxCell id="64" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=4;exitX=0.25;exitY=1;exitDx=0;exitDy=0;entryX=0.997;entryY=0.325;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="66" target="54" edge="1">
           <mxGeometry relative="1" as="geometry">
@@ -394,6 +394,11 @@
             </Array>
           </mxGeometry>
         </mxCell>
+        <mxCell id="nylE6NXhxsO_X8nIw7MO-137" value="Sí" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="64">
+          <mxGeometry x="-0.7113" y="1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
         <mxCell id="65" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=4;exitX=0.75;exitY=1;exitDx=0;exitDy=0;entryX=0.423;entryY=0.033;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="66" target="7" edge="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="8820" y="13647" as="targetPoint" />
@@ -401,21 +406,16 @@
             <Array as="points" />
           </mxGeometry>
         </mxCell>
+        <mxCell id="nylE6NXhxsO_X8nIw7MO-138" value="No" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="65">
+          <mxGeometry x="-0.2871" y="-3" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
         <mxCell id="66" value="Teniu una estretègia per determinar els preus &#xa;dinàmicament (respecte de canvis de&#xa;demanda i el volum de vendes)?" style="rounded=1;fillColor=#10739E;strokeColor=none;shadow=1;gradientColor=none;fontStyle=1;fontSize=14;fontColor=#FFFFFF;" parent="1" vertex="1">
           <mxGeometry x="8570.000000000002" y="13450" width="340" height="70" as="geometry" />
         </mxCell>
-        <mxCell id="67" value="Sí" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontColor=#000000;" parent="1" vertex="1" connectable="0">
-          <mxGeometry x="8660.000000000002" y="13550" as="geometry">
-            <mxPoint x="-6" y="-1" as="offset" />
-          </mxGeometry>
-        </mxCell>
         <mxCell id="68" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;strokeWidth=4;" parent="1" source="66" target="66" edge="1">
           <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="69" value="No" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontColor=#000000;" parent="1" vertex="1" connectable="0">
-          <mxGeometry x="8830.000000000002" y="13550" as="geometry">
-            <mxPoint x="-6" y="-1" as="offset" />
-          </mxGeometry>
         </mxCell>
         <mxCell id="70" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=4;exitX=0.597;exitY=1.014;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.381;entryY=-0.011;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="71" target="84" edge="1">
           <mxGeometry relative="1" as="geometry">
